@@ -1,15 +1,15 @@
 
 --- Temperature 0.0 ---
-Run 1: The sky bled brilliant shades of amber and violet as the sun slowly melted beneath the jagged silhouette of the horizon.
-Run 2: The sun melted into the horizon, bruising the evening sky with vibrant strokes of amber and violet.
-Run 3: As the sun dipped below the horizon, it painted the sky in brilliant strokes of fiery orange and deep violet, casting a warm, fading glow over the quiet earth.
+Run 1: The sun melted into the horizon, streaking the sky with bruised purples and liquid gold as dusk gently closed the day's eyes.
+Run 2: As the sun dipped below the horizon, it painted the sky in fiery strokes of amber and violet, slowly melting into the quiet embrace of twilight.
+Run 3: The sky dissolved into a bruised masterpiece of molten gold and bruised violet as the sun slipped quietly below the jagged horizon.
 
 --- Temperature 0.7 ---
-Run 1: The setting sun painted the horizon in bruised shades of violet and burning amber, slowly melting into the encroaching velvet of night.
-Run 2: The horizon blazed in a brilliant gradient of bruised violet and liquid gold as the sun slowly dipped below the edge of the world.
-Run 3: The horizon bled vibrant strokes of bruised purple and molten gold as the sun dipped lazily below the edge of the world.
+Run 1: The horizon burned in brilliant shades of amber and violet as the sun slowly melted into the edge of the earth.
+Run 2: The sun dipped below the horizon, bleeding streaks of bruised purple and molten gold across the darkening sky.
+Run 3: The sun melted into the horizon, streaking the fading sky with bruised purples and liquid gold.
 
 --- Temperature 1.0 ---
-Run 1: The dying sun bled vibrant strokes of crimson and gold across the darkening canvas of the evening sky.
-Run 2: As the day melted away, the sky burst into brilliant shades of bruised purple and molten gold, slowly fading into the quiet embrace of twilight.
-Run 3: The sky bled molten gold and bruised violet as the sun slowly slipped beneath the jagged silhouette of the horizon.
+Run 1: As the day slowly surrendered to the night, the horizon ignited in a brilliant blaze of amber and violet, casting long, melancholic shadows across the quiet earth.
+Run 2: The sky bled bruised shades of violet and molten amber as the sun slowly dissolved into the jagged silhouette of the horizon.
+Run 3: As the day slipped away, the horizon bled molten gold and bruised violet, casting a final, warm sigh across the quiet earth.

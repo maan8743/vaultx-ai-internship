@@ -1,0 +1,120 @@
+[1] My card was charged twice for the same order, please refund immediately!
+    Category: billing
+    Priority: high
+    Sentiment: negative
+    Needs human: True
+
+[2] The app crashes every time I try to upload a photo.
+    Category: technical
+    Priority: high
+    Sentiment: negative
+    Needs human: True
+
+[3] I love the new dashboard redesign, great work!
+    Category: feature_request
+    Priority: low
+    Sentiment: positive
+    Needs human: False
+
+[4] How do I reset my password? I can't find the option anywhere.
+    Category: technical
+    Priority: low
+    Sentiment: neutral
+    Needs human: False
+
+[5] This is the third time I'm contacting support about the same bug. Fix it now.
+    Category: technical
+    Priority: urgent
+    Sentiment: negative
+    Needs human: True
+
+[6] Can you add dark mode to the mobile app?
+    Category: feature_request
+    Priority: low
+    Sentiment: neutral
+    Needs human: False
+
+[7] I was overcharged on my invoice this month.
+    Category: billing
+    Priority: high
+    Sentiment: negative
+    Needs human: True
+
+[8] Your service has been down for 3 hours, my whole team can't work.
+    Category: technical
+    Priority: urgent
+    Sentiment: negative
+    Needs human: True
+
+[9] Just wanted to say thanks, the support team was super helpful yesterday.
+    Category: other
+    Priority: low
+    Sentiment: positive
+    Needs human: False
+
+[10] I can't log in, it says my account is locked.
+    Category: technical
+    Priority: high
+    Sentiment: negative
+    Needs human: True
+
+[11] Please cancel my subscription and refund the remaining balance.
+    Category: billing
+    Priority: medium
+    Sentiment: negative
+    Needs human: True
+
+[12] The export feature is missing columns compared to last month.
+    Category: technical
+    Priority: medium
+    Sentiment: negative
+    Needs human: True
+
+[13] Is there a way to integrate this with Slack?
+    Category: feature_request
+    Priority: low
+    Sentiment: neutral
+    Needs human: False
+
+[14] I'm extremely frustrated, this is the worst customer experience I've had.
+    Category: complaint
+    Priority: high
+    Sentiment: negative
+    Needs human: True
+
+[15] Quick question — what's your refund policy?
+    Category: billing
+    Priority: low
+    Sentiment: neutral
+    Needs human: False
+
+[16] The API returns a 500 error on every request since this morning.
+    Category: technical
+    Priority: urgent
+    Sentiment: negative
+    Needs human: True
+
+[17] Love the product overall, just wish there were more themes.
+    Category: feature_request
+    Priority: low
+    Sentiment: positive
+    Needs human: False
+
+[18] My data seems to have disappeared after the last update, I need this fixed urgently.
+    Category: technical
+    Priority: urgent
+    Sentiment: negative
+    Needs human: True
+
+[19] Can someone explain how billing cycles work for annual plans?
+    Category: billing
+    Priority: low
+    Sentiment: neutral
+    Needs human: False
+
+[20] Everything works great, no complaints here!
+    Category: other
+    Priority: low
+    Sentiment: positive
+    Needs human: False
+

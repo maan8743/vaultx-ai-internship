@@ -16,7 +16,7 @@ class InvoiceData(BaseModel):
     total_amount: Optional[float] = None
     due_date: Optional[str] = None
     line_items: Optional[list[str]] = None
-
+    shop_address: Optional[list[str]]= None
 
 def extract_invoice(text: str, model="gemini-3.5-flash-lite", max_retries: int = 3) -> InvoiceData:
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -52,9 +52,9 @@ TEXT:
 if __name__ == "__main__":
     sample_text = """
     Thanks for your business! Here's a summary of your recent order.
-    Invoice #INV-2049
-    Vendor: Bright Office Supplies
-    Total due: $482.50
+    Hope your order will dilverd on time!!!. Here is the invoice number Invoice #INV-2049
+    and the vendor name is Vendor: Bright Office Supplies
+    your total is Total due: $482.50 so please pay it on time. So your due date is 2,september 2026
     Items: 10x A4 Paper Reams, 5x Toner Cartridges, 2x Desk Organizers
     """
 
@@ -62,6 +62,7 @@ if __name__ == "__main__":
     print(result.model_dump_json(indent=2))
 
     # Test with genuinely incomplete text — must NOT crash
-    messy_text = "hey we need to settle up for the office chairs sometime this month"
+    messy_text = "hey we need to settle up for the office chairs sometime this month i think the total budget is 347.58$ and our boss want to" \
+    "order chair from spacific vendor the vendor name is bilal chairs so here's the shop address one unit chowk bhawalpur"
     result2 = extract_invoice(messy_text)
     print(result2.model_dump_json(indent=2))

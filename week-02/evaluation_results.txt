@@ -1,3 +1,7 @@
-Prompt V1 accuracy: 100.0%
-Prompt V2 accuracy: 100.0%
-Improvement: +0.0 points
+Prompt V1 accuracy: 80.0%
+Prompt V2 accuracy: 93.3%
+Improvement: +13.3 points
+
+Cases that improved (wrong in V1, correct in V2):
+  "It works." | V1: positive (wrong) -> V2: neutral (correct)
+  "Can't complain, does the job." | V1: positive (wrong) -> V2: neutral (correct)

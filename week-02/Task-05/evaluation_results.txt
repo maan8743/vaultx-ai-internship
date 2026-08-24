@@ -1,7 +1,38 @@
-Prompt V1 accuracy: 80.0%
-Prompt V2 accuracy: 93.3%
-Improvement: +13.3 points
+=== Prompt V1 (baseline) — Accuracy: 100.0% (15/15) ===
+  ✓ expected=positive got=positive | I absolutely love this product, best purchase ever!
+  ✓ expected=negative got=negative | This is garbage, complete waste of money.
+  ✓ expected=neutral  got=neutral  | It's fine, does what it says.
+  ✓ expected=negative got=negative | Worst customer service I've ever experienced.
+  ✓ expected=positive got=positive | Exceeded my expectations in every way.
+  ✓ expected=neutral  got=neutral  | Not bad, not great, just okay.
+  ✓ expected=negative got=negative | I'm never buying from this company again.
+  ✓ expected=positive got=positive | Pretty happy with how this turned out.
+  ✓ expected=neutral  got=neutral  | It arrived on time, nothing special to report.
+  ✓ expected=positive got=positive | Absolutely thrilled with the results!
+  ✓ expected=negative got=negative | Disappointed — it broke after two days.
+  ✓ expected=neutral  got=neutral  | Average product for the price.
+  ✓ expected=positive got=positive | This changed my life, incredible!
+  ✓ expected=negative got=negative | Terrible experience from start to finish.
+  ✓ expected=neutral  got=neutral  | It works as described, nothing more.
 
-Cases that improved (wrong in V1, correct in V2):
-  "It works." | V1: positive (wrong) -> V2: neutral (correct)
-  "Can't complain, does the job." | V1: positive (wrong) -> V2: neutral (correct)
+Waiting 30 seconds before starting V2 to avoid rate limit...
+
+=== Prompt V2 (improved) — Accuracy: 100.0% (15/15) ===
+  ✓ expected=positive got=positive | I absolutely love this product, best purchase ever!
+  ✓ expected=negative got=negative | This is garbage, complete waste of money.
+  ✓ expected=neutral  got=neutral  | It's fine, does what it says.
+  ✓ expected=negative got=negative | Worst customer service I've ever experienced.
+  ✓ expected=positive got=positive | Exceeded my expectations in every way.
+  ✓ expected=neutral  got=neutral  | Not bad, not great, just okay.
+  ✓ expected=negative got=negative | I'm never buying from this company again.
+  ✓ expected=positive got=positive | Pretty happy with how this turned out.
+  ✓ expected=neutral  got=neutral  | It arrived on time, nothing special to report.
+  ✓ expected=positive got=positive | Absolutely thrilled with the results!
+  ✓ expected=negative got=negative | Disappointed — it broke after two days.
+  ✓ expected=neutral  got=neutral  | Average product for the price.
+  ✓ expected=positive got=positive | This changed my life, incredible!
+  ✓ expected=negative got=negative | Terrible experience from start to finish.
+  ✓ expected=neutral  got=neutral  | It works as described, nothing more.
+
+=== IMPROVEMENT ===
+V1: 100.0%  ->  V2: 100.0%  (change: +0.0 points)

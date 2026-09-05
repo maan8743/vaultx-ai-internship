@@ -1,4 +1,5 @@
 import os
+import time
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -53,6 +54,7 @@ def run_eval(prompt_builder, label: str):
         is_correct = predicted == expected
         correct += is_correct
         results.append((text, expected, predicted, is_correct))
+        time.sleep(4)  # stay under free-tier rate limit (15 requests/minute)
 
     accuracy = correct / len(EVAL_SET) * 100
     print(f"\n=== {label} — Accuracy: {accuracy:.1f}% ({correct}/{len(EVAL_SET)}) ===")
@@ -80,6 +82,10 @@ TEXT: {text}"""
 
 if __name__ == "__main__":
     acc_v1, _ = run_eval(prompt_v1, "Prompt V1 (baseline)")
+
+    print("\nWaiting 30 seconds before starting V2 to avoid rate limit...")
+    time.sleep(30)
+
     acc_v2, _ = run_eval(prompt_v2, "Prompt V2 (improved)")
 
     print(f"\n=== IMPROVEMENT ===")

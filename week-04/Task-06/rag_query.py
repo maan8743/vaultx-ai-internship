@@ -1,0 +1,122 @@
+import os
+import time
+import chromadb
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+
+PERSIST_DIR = "../Task-02/chroma_db"
+COLLECTION_NAME = "vaultx_docs"
+TOP_K = 15
+
+
+def get_embedding(client, text, max_retries=4):
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            result = client.models.embed_content(model="gemini-embedding-001", contents=text)
+            return result.embeddings[0].values
+        except Exception as e:
+            last_error = e
+            wait = 2 ** attempt
+            print(f"[Retry {attempt}/{max_retries}] {type(e).__name__}: {e}. Waiting {wait}s...")
+            time.sleep(wait)
+    raise RuntimeError(f"Embedding failed after {max_retries} attempts: {last_error}")
+
+
+def retrieve(client, collection, question, top_k=TOP_K):
+    query_embedding = get_embedding(client, question)
+    results = collection.query(query_embeddings=[query_embedding], n_results=top_k)
+    chunks = []
+    for i in range(len(results["documents"][0])):
+        chunks.append({
+            "text": results["documents"][0][i],
+            "source": results["metadatas"][0][i]["source"],
+            "distance": results["distances"][0][i],
+        })
+    return chunks
+
+
+def check_grounding(gemini_client, answer, context):
+    """
+    A second, independent LLM call that checks whether the answer's claims
+    are actually supported by the context — catches cases where the main
+    answer call subtly added something not really in the source material.
+    """
+    if "i don't know" in answer.lower():
+        return True  # a refusal is always trivially "grounded" — nothing to check
+
+    check_prompt = f"""Does the following ANSWER contain any claims that are NOT
+supported by the CONTEXT? Respond with exactly "GROUNDED" if every claim is
+supported, or "UNGROUNDED" if the answer adds unsupported information.
+
+CONTEXT:
+{context}
+
+ANSWER:
+{answer}
+
+VERDICT:"""
+
+    response = gemini_client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        contents=check_prompt,
+    )
+    return "GROUNDED" in response.text.upper()
+
+
+def answer_question(question):
+    gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    chroma_client = chromadb.PersistentClient(path=PERSIST_DIR)
+    collection = chroma_client.get_collection(COLLECTION_NAME)
+
+    retrieved = retrieve(gemini_client, collection, question)
+
+    # Build a context block that clearly separates each source chunk
+    context = "\n\n".join(
+        f"[Source {i+1}: {c['source']}]\n{c['text']}"
+        for i, c in enumerate(retrieved)
+    )
+
+    prompt = f"""Answer the question using ONLY the context below. Do not use any
+outside knowledge. Cite which source number(s) support your answer, like [Source 1].
+If the answer is not contained in the context, respond exactly with:
+"I don't know based on the provided documents."
+
+CONTEXT:
+{context}
+
+QUESTION: {question}
+
+ANSWER:"""
+
+    response = gemini_client.models.generate_content(
+        model="gemini-3.5-flash-lite",
+        contents=prompt,
+    )
+
+    answer_text = response.text
+    is_grounded = check_grounding(gemini_client, answer_text, context)
+
+    if not is_grounded:
+        answer_text = "⚠️ This answer may include unverified information.\n\n" + answer_text
+
+    return {
+        "answer": answer_text,
+        "sources": [{"source": c["source"], "distance": c["distance"]} for c in retrieved],
+        "grounded": is_grounded,
+    }
+
+
+if __name__ == "__main__":
+    while True:
+        question = input("\nAsk a question (or 'quit'): ")
+        if question.lower() == "quit":
+            break
+        result = answer_question(question)
+        print(f"\nANSWER:\n{result['answer']}")
+        print(f"\nGROUNDED: {result['grounded']}")
+        print(f"\nRETRIEVED FROM:")
+        for s in result["sources"]:
+            print(f"  - {s['source']} (distance: {s['distance']:.4f})")

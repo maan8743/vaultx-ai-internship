@@ -8,13 +8,20 @@ load_dotenv()
 PERSIST_DIR = "chroma_db"
 COLLECTION_NAME = "vaultx_docs"
 TOP_K = 4
+import time
 
-
-def get_embedding(client, text):
-    result = client.models.embed_content(model="gemini-embedding-001", contents=text)
-    return result.embeddings[0].values
-
-
+def get_embedding(client, text, max_retries=4):
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            result = client.models.embed_content(model="gemini-embedding-001", contents=text)
+            return result.embeddings[0].values
+        except Exception as e:
+            last_error = e
+            wait = 2 ** attempt
+            print(f"[Retry {attempt}/{max_retries}] {type(e).__name__}: {e}. Waiting {wait}s...")
+            time.sleep(wait)
+    raise RuntimeError(f"Embedding failed after {max_retries} attempts: {last_error}")
 def retrieve(client, collection, question, top_k=TOP_K):
     query_embedding = get_embedding(client, question)
     results = collection.query(query_embeddings=[query_embedding], n_results=top_k)

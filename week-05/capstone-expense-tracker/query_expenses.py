@@ -7,7 +7,7 @@ from google import genai
 
 load_dotenv()
 
-SHEET_ID = "1myASZQSwf18jmSsrxwUjMwO2FjBMOb3rPC-gbhi79_g"
+SHEET_ID = "1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI"
 SHEET_CSV_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid=0"
 
 

@@ -1,5 +1,6 @@
 import os
 import socket
+from extract_receipt import extract_receipt_from_image, extract_receipt
 from flask import Flask, request, render_template, jsonify
 from extract_receipt import extract_receipt_from_image
 from log_expense import log_to_sheet
@@ -30,6 +31,31 @@ def upload():
         return jsonify({"error": f"Extraction failed: {e}"}), 500
 
     logged = log_to_sheet(result, source="mobile_web")
+
+    return jsonify({
+        "extracted": result.model_dump(),
+        "logged": logged,
+    })
+@app.route("/upload_text", methods=["POST"])
+def upload_text():
+    data = request.get_json()
+    receipt_text = data.get("text", "")
+    if not receipt_text:
+        return jsonify({"error": "No text provided"}), 400
+
+    try:
+        result = extract_receipt(receipt_text)
+    except Exception as e:
+        return jsonify({"error": f"Extraction failed: {e}"}), 500
+
+    if result.confidence == "low" or result.merchant == "UNREADABLE":
+        return jsonify({
+            "extracted": result.model_dump(),
+            "logged": False,
+            "warning": "Low confidence — text may be unclear or incomplete."
+        })
+
+    logged = log_to_sheet(result, source="text_web")
 
     return jsonify({
         "extracted": result.model_dump(),

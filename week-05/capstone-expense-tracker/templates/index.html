@@ -40,6 +40,12 @@
 
   <div id="result"></div>
 </div>
+<h2>📝 Or Type a Receipt</h2>
+<div class="card">
+  <textarea id="textInput" rows="6" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; margin-bottom:10px;" placeholder="Paste or type receipt details here..."></textarea>
+  <button onclick="uploadText()">Extract & Log</button>
+  <div id="textResult"></div>
+</div>
 
 <h2>💬 Ask About Spending</h2>
 <div class="card">
@@ -149,6 +155,38 @@ async function askQuestion() {
   } catch (err) {
     answerDiv.className = '';
     answerDiv.textContent = 'Error: ' + err;
+  }
+}
+</script>
+<script>
+async function uploadText() {
+  const text = document.getElementById('textInput').value;
+  const resultDiv = document.getElementById('textResult');
+  if (!text) { alert('Type or paste some receipt text first'); return; }
+
+  resultDiv.style.display = 'block';
+  resultDiv.className = 'loading';
+  resultDiv.textContent = 'Extracting...';
+
+  try {
+    const res = await fetch('/upload_text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+    const data = await res.json();
+    resultDiv.className = '';
+    if (data.error) {
+      resultDiv.textContent = 'Error: ' + data.error;
+    } else if (data.warning) {
+      resultDiv.textContent = data.warning + '\n\n' + JSON.stringify(data.extracted, null, 2);
+    } else {
+      resultDiv.textContent = JSON.stringify(data.extracted, null, 2) +
+        (data.logged ? '\n\n✅ Logged to sheet' : '\n\n⚠️ Not logged');
+    }
+  } catch (err) {
+    resultDiv.className = '';
+    resultDiv.textContent = 'Error: ' + err;
   }
 }
 </script>

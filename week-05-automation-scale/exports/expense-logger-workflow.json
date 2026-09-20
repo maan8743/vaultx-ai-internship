@@ -1,0 +1,256 @@
+{
+  "name": "Expense Logger",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "log-expense",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "da8c7e7c-7eb2-4d93-9fb1-2886331ebca9",
+      "name": "Webhook",
+      "webhookId": "492e82d1-3d97-42cb-a866-4212ae3e52e1",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI",
+          "mode": "list",
+          "cachedResultName": "Expense logger sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.body.date }}",
+            "Merchant": "={{ $json.body.merchant }}",
+            "Line_items": "={{ $json.body.line_items.join(\", \") }}",
+            "Confidence": "={{ $json.body.confidence }}",
+            "Source": "={{ $json.body.source }}",
+            "Total": "={{ $json.body.total }}",
+            "Category": "={{ $json.body.category }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Merchant",
+              "displayName": "Merchant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total",
+              "displayName": "Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Line_items",
+              "displayName": "Line_items",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Confidence",
+              "displayName": "Confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "0b74d8e7-3918-41ed-9d30-922d70e271b9",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "N9HAbZ5p0WsBzNd9",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI",
+          "mode": "list",
+          "cachedResultName": "Expense logger sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 569181117,
+          "mode": "list",
+          "cachedResultName": "Error Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1zP3f8kqfGmV-iZWd74YgjlTRfopNN8mscLinPd3JZLI/edit#gid=569181117"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now }}",
+            "Error_message": "={{ $json.errorMessage || $json.error?.message || JSON.stringify($json) }}",
+            "Raw_data": "={{ JSON.stringify($json.body) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Error_message",
+              "displayName": "Error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Raw_data",
+              "displayName": "Raw_data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        144
+      ],
+      "id": "46c5f719-ae3a-426d-8410-fdd88681b75f",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "N9HAbZ5p0WsBzNd9",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f3c532bd-0044-4915-be6e-e7959a94b398",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5999c5393061108da3cc1257d781b32d19319def7f3953ca96ea6ef20d31166a"
+  },
+  "nodeGroups": [],
+  "id": "nYLlIaG9JYK5EtWp",
+  "tags": []
+}

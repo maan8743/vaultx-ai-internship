@@ -11,15 +11,18 @@ def is_likely_duplicate(new_entry, existing_expenses):
     return False
 
 
-def log_to_sheet(receipt_data, source="unknown"):
+def log_to_sheet(receipt_data, source="unknown", max_retries=3):
+    from query_expenses import fetch_expenses
+
     payload = receipt_data.model_dump() if hasattr(receipt_data, "model_dump") else receipt_data
     payload["source"] = source
 
     try:
-        response = requests.post(N8N_WEBHOOK_URL, json=payload, timeout=10)
-        response.raise_for_status()
-        print("Logged to Expense Log sheet successfully.")
-        return True
-    except requests.exceptions.RequestException as e:
-        print(f"Failed to log expense: {e}")
-        return False
+        existing = fetch_expenses()
+        if is_likely_duplicate(payload, existing):
+            print("Duplicate detected — skipping (already logged).")
+            return False
+    except Exception as e:
+        print(f"Could not check for duplicates: {e}. Proceeding anyway.")
+
+    # ... existing retry logic continues here

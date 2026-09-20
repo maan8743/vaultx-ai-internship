@@ -177,13 +177,14 @@ async function uploadText() {
     const data = await res.json();
     resultDiv.className = '';
     if (data.error) {
-      resultDiv.textContent = 'Error: ' + data.error;
-    } else if (data.warning) {
-      resultDiv.textContent = data.warning + '\n\n' + JSON.stringify(data.extracted, null, 2);
-    } else {
-      resultDiv.textContent = JSON.stringify(data.extracted, null, 2) +
-        (data.logged ? '\n\n✅ Logged to sheet' : '\n\n⚠️ Not logged');
-    }
+  resultDiv.textContent = 'Error: ' + data.error;
+} else if (data.warning) {
+  resultDiv.textContent = data.warning + '\n\n' + JSON.stringify(data.extracted, null, 2);
+} else {
+  resultDiv.textContent = JSON.stringify(data.extracted, null, 2) +
+    (data.logged ? '\n\n✅ Logged to sheet' : '\n\n⚠️ Failed to log (saved locally as backup)');
+}
+    
   } catch (err) {
     resultDiv.className = '';
     resultDiv.textContent = 'Error: ' + err;
